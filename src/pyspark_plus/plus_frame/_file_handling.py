@@ -1,0 +1,46 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+from pyspark.sql import DataFrame
+
+if TYPE_CHECKING:
+    from .base import PlusFrame
+
+
+@dataclass(slots=True)
+class FileHandling:
+    parent: PlusFrame
+
+    def __init__(self, parent: PlusFrame) -> None:
+        self.parent = parent
+
+    # Generic
+    def read(self, file_path: str | Path) -> DataFrame: ...
+    def write(self): ...
+
+    # CSVs
+    def read_csv(self, output) -> DataFrame: ...
+    def write_csv(self, input): ...
+
+    # Parquets
+    def read_parquet(self) -> DataFrame: ...
+    def write_parquet(self): ...
+
+    # Jsons
+    def read_json(self) -> DataFrame: ...
+    def write_json(self): ...
+
+    # Spark Tables
+    def read_table(self) -> DataFrame: ...
+    def write_table(self): ...
+
+    # Delta Tables
+    def read_delta(self) -> DataFrame: ...
+    def write_delta(self): ...
+
+    # Excel
+    def read_xlsx(self) -> DataFrame: ...
+    def write_xlsx(self): ...
